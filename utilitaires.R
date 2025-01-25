@@ -10,6 +10,10 @@ qpareto <- function(x, al, la)
     # ...
 }
 
+# u = 1 - (la / (la + x))^al
+# (1 - u)^(1 / al) = la / (la + x)
+# x = la (1 - (1 - u)^(1 / al)) / ((1 - u)^(1 / al))
+
 dlogarithmique <- function(x, ga)
 {
     -((ga^x) / (x * log(1 - ga)))
