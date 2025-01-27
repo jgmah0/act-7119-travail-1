@@ -2,14 +2,10 @@
 ### Travail 1
 ### Fonctions pour échantillonner un modèle avec comonotonicité
 ### entre les composantes du modèle.
-### Présentement, des distributions sont fixées pour la
-### fréquence et la sévérité, mais il sera possible de
-### rendre la fonction plus dynamique selon plusieurs choix
-### de distributions de fréquence et de sévérité.
 ###
 ##
 
-echantillonner_modele_3 <- function(n, rseed = 201)
+echantillonner_modele_3 <- function(n, qDistN, qDistX, rseed = 201)
 {
     realisations <- list()
     realisation_i <- vector(mode = "numeric")
@@ -20,11 +16,11 @@ echantillonner_modele_3 <- function(n, rseed = 201)
     for (i in seq(n))
     {
         U_i <- runif(1)
-        realisation_i[1] <- qpois(U_i, 10)
+        realisation_i[1] <- qDistN(U_i)
 
         if (realisation_i[1] != 0)
         {
-            realisation_i <- c(realisation_i[1], rep(qexp(U_i, 0.001), realisation_i[1]))
+            realisation_i <- c(realisation_i[1], rep(qDistX(U_i), realisation_i[1]))
         }
 
         if (realisation_i[1] > max_N_i)

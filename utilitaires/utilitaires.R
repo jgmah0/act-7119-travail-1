@@ -4,6 +4,12 @@
 ###
 ##
 
+# Fonction indicatrice "geq"
+calculer_indicatrice_geq <- function(xinf, xsup)
+{
+    xinf <= xsup
+}
+
 # Fonction pour des lois de probabilité
 qpareto <- function(x, al, la)
 {
