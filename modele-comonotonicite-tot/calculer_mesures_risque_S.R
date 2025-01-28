@@ -29,3 +29,16 @@ calculer_TVaRS_crm_comonotonicite <- function(k, qDistN, qDistX)
                   k,
                   1)$value
 }
+
+calculer_entropique_crm_comonotonicite <- function(rho, pDistN, qDistN, qDistX, kmax)
+{
+    MS <- pDistN(0)
+
+    for (i in seq(kmax))
+    {
+        MS <- MS + integrate(function(y) exp(rho * qDistN(y) * qDistX(y)),
+                             pDistN(i - 1), pDistN(i))$value
+    }
+
+    1 / rho * log(MS)
+}
