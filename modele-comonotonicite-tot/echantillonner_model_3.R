@@ -16,6 +16,8 @@ echantillonner_modele_3 <- function(n, qDistN, qDistX, rseed = 201)
     for (i in seq(n))
     {
         U_i <- runif(1)
+
+        realisation_i <- vector(mode = "numeric")
         realisation_i[1] <- qDistN(U_i)
 
         if (realisation_i[1] != 0)
