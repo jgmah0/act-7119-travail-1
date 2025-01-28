@@ -12,10 +12,10 @@ source("modele-comonotonicite-tot/calculer_frep_XcondN.R")
 source("modele-comonotonicite-tot/calculer_mesures_risque_S.R")
 source("modele-comonotonicite-tot/echantillonner_model_3.R")
 
-source("modele-anitmonotone-tot/calculer_ES.R")
-source("modele-anitmonotone-tot/calculer_frep_XcondN.R")
-source("modele-anitmonotone-tot/calculer_mesures_risque_S.R")
-source("modele-anitmonotone-tot/echantillonner_model_3.R")
+source("modele-antimonotone-tot/calculer_ES.R")
+source("modele-antimonotone-tot/calculer_frep_XcondN.R")
+source("modele-antimonotone-tot/calculer_mesures_risque_S.R")
+source("modele-antimonotone-tot/echantillonner_model_4.R")
 lam <- 2
 bet <- 1 / 100
 
@@ -83,3 +83,19 @@ calculer_TVaRS_crm_comonotonicite(0.95, function(x) qpois(x, lam),
 calculer_entropique_crm_comonotonicite(0.001, function(x) ppois(x, lam),
                                        function(x) qpois(x, lam),
                                        function(x) qexp(x, bet), 15)
+
+### Modèle avec composantes antimonotones
+
+calculer_ES_crm_antimonotones(function(x) ppois(x, lam),
+                              function(x) qexp(x, bet),
+                              15)
+
+1 / (ppois(2, lam) - ppois(1, lam)) * (ppois(2, lam) * tvarX(1 - ppois(2, lam), bet) -
+                                           ppois(1, lam) * tvarX(1 - ppois(1, lam), bet))
+
+calculer_TVaRS_crm_antimonotones(0.95, function(x) qpois(x, lam),
+                                 function(x) qexp(x, bet))
+
+calculer_entropique_crm_antimonotones(0.001, function(x) ppois(x, lam),
+                                      function(x) qpois(x, lam),
+                                      function(x) qexp(x, bet), 15)
