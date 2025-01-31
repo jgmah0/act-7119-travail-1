@@ -16,6 +16,7 @@ source("modele-antimonotone-tot/calculer_ES.R")
 source("modele-antimonotone-tot/calculer_frep_XcondN.R")
 source("modele-antimonotone-tot/calculer_mesures_risque_S.R")
 source("modele-antimonotone-tot/echantillonner_model_4.R")
+
 lam <- 2
 bet <- 1 / 100
 
@@ -80,7 +81,7 @@ calculer_TVaRS_crm_comonotonicite(0.95, function(x) qpois(x, lam),
 ## Mesure entropique
 calculer_entropique_crm_comonotonicite(0.001, function(x) ppois(x, lam),
                                        function(x) qpois(x, lam),
-                                       function(x) qexp(x, bet), 15)
+                                       function(x) qexp(x, bet), 12)
 
 ### Modèle avec composantes antimonotones
 
