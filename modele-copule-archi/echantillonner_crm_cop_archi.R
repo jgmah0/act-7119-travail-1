@@ -1,26 +1,24 @@
 ###
 ### Travail 1, ACT-7119
-### Algorithme 13 de [Cossette et al., 2019]
+### Algorithme 13 de [Cossette et al., 2019] version non hierarchique
 ###
 ##
 
 
 # À tester.
-echantillonner_crm_cop_archi_hiera <- function(n, qDistTheta0, tlsTheta0, qDistB, tlsTheta1, qDistN, qDistX)
+echantillonner_crm_cop_archi <- function(n, qDistTheta, tlsTheta, qDistB, qDistN, qDistX)
 {
   realisations <- list()
   realisation_i <- vector(mode = "numeric")
   
-  theta0 <- qDistTheta0(runif(n)) # Échantillonner theta0
+  theta <- qDistTheta(runif(n)) # Échantillonner theta
   R <- rexp(n) # Échantillonner R
-  U <- tlsTheta0(R / theta0) # Calculer U
+  U <- tlsTheta(R / theta) # Calculer U
   
   realisations_N <- qDistN(U) # Simuler les réalisations de N
   
   # Initialiser les valeurs
   R_X <- 0
-  U_X <- 0
-  Theta01 <- 0
   
   max_N_i <- 0
   
@@ -32,15 +30,12 @@ echantillonner_crm_cop_archi_hiera <- function(n, qDistTheta0, tlsTheta0, qDistB
     if (realisation_i[1] != 0)
     {
       
-      Theta01 <- sum(qDistB(runif(theta0))) # Échantilonner Theta01
-      
       # Pour i = 1,...,N
       for (j in seq(realisations_N[i]))
       {
         
         R_X <- rexp(1) # Échantilonner R_i
-        U_X <- tlsTheta1(R_X / Theta01) # Calculer U_i
-        X_X = qDistX(U_X) # Calculer X_i
+        X_X = qDistX(U) # Calculer X_I avec le même U que pour la simulation de N
         
         realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
       }
