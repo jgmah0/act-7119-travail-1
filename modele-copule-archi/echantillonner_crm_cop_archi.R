@@ -2,7 +2,7 @@
 ### Travail 1, ACT-7119
 ### Algorithme 13 de [Cossette et al., 2019] version non hierarchique
 ###
-##
+###
 
 
 # À tester.
