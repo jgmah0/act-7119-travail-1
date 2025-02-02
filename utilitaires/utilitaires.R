@@ -37,3 +37,38 @@ qlogarithmique <- function(u, ga)
 
     i
 }
+
+
+### Discrétiser
+discr <- function(h, pDistX, qDistX,
+                    tol = 10^-7, method = "lower")
+{
+    max = qDistX(1 - tol)
+
+    length <- max / h
+
+    if(method == "lower")
+    {
+        length <- length + 1
+        return(c(0,  pDistX((1:length) * h) -
+              pDistX((0:(length - 1)) * h)))
+    }
+
+    c(pDistX(h),
+      pDistX((2:length) * h) - pDistX((1:(length - 1)) * h))
+}
+
+
+VaR_kapp_discr <- function(kapp, h, fx)
+    (min(which(cumsum(fx) >= kapp) - 1)) * h
+
+# fxx <- discr(0.01, function(x) plnorm(x, log(10) - 0.32, 0.8),
+#              function(x) qlnorm(x, log(10) - 0.32, 0.8),
+#              method = "lower")
+#
+# F_xx <- cumsum(fxx)
+#
+#
+#
+# VaR_kapp_methode(0.9999, 0.01, fxx)
+
