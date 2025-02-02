@@ -39,6 +39,24 @@ qlogarithmique <- function(u, ga)
 }
 
 
+# TLS inverse pour le modèle avec copule Archimédienne hiérarchique
+# geom-geom
+fgp_inv_geom_essais <- function(u, q)
+{
+    u / (q + (1 - q) * u)
+}
+
+tls_inv_geom_essais <- function(u, q)
+{
+    log(( q + u * (1 - q) ) / u)
+}
+
+tls_inv_geom_essais_comp_geom_essais <- function(u, q0, q1)
+{
+    tls_inv_geom_essais(fgp_inv_geom_essais(u, q0), q1)
+}
+
+
 ### Discrétiser
 discr <- function(h, pDistX, qDistX,
                     tol = 10^-7, method = "lower")

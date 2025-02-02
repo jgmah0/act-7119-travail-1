@@ -60,8 +60,8 @@ calculer_EX2_cond_N_archi_hiera <- function(k, h, imax,
 
 
 calculer_ES_archi_hiera <- function(kmax, imax, h, tlsInvTh0, pDistN, dDistN,
-                                   tlsInvTh1, pDistX, dDistTh0, dDistTh01,
-                                   seuil)
+                                    tlsInvTh1, pDistX, dDistTh0, dDistTh01,
+                                    seuil)
 {
     ES <- 0
 

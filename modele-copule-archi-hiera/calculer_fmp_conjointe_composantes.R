@@ -61,27 +61,31 @@ calculer_fNX1Xk_archi_hiera <- function(k, vec_i, h,
     kmax_th0 <- approximer_kmax_version_2(dDistTh0, seuil)
     kmax_th01 <- approximer_kmax_version_2(dDistTh01, seuil)
 
-    f_conj_comp_partielle <- 0
-    for (th01 in seq(kmax_th01))
-    {
-        f_conj_comp_partielle <- f_conj_comp_partielle +
-            dDistTh01(th01) *
-            prod(calculer_fX_cond_th0_th01_archi_hiera(vec_i,
-                                                       h,
-                                                       th01,
-                                                       tlsInvTh1,
-                                                       pDistX))
-    }
 
     f_conj_comp <- 0
     for (th0 in seq(kmax_th0))
     {
+        f_conj_comp_temp <- 0
+
+        for (th01 in seq(kmax_th01))
+        {
+
+            f_conj_comp_temp <- f_conj_comp_temp +
+                dDistTh01(th01, th0) *
+                prod(calculer_fX_cond_th0_th01_archi_hiera(vec_i,
+                                                           h,
+                                                           th01,
+                                                           tlsInvTh1,
+                                                           pDistX))
+        }
+
         f_conj_comp <- f_conj_comp +
             dDistTh0(th0) *
             calculer_fN_cond_th0_archi_hiera(k,
                                              th0,
                                              tlsInvTh0,
-                                             pDistN)
+                                             pDistN) *
+            f_conj_comp_temp
     }
 
     f_conj_comp * f_conj_comp_partielle
