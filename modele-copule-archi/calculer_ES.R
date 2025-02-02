@@ -13,29 +13,37 @@
 ###                              dDistN = function(x) dpois(x, 2), # Fréquence poisson
 ###                              pDistN = function(x) ppois(x, 2),
 ###                              qDistN = function(x) qpois(x, 2))
-###                              
+###
 
 # E[S]
-calculer_ES_crm_archi_simple <- function(alpha, tlsinvDistTheta, dDistTheta, qDistTheta, pDistX, qDistX, dDistN, pDistN, qDistN)
+calculer_ES_crm_archi_simple <- function(alpha, tlsinvDistTheta, dDistTheta,
+                                         qDistTheta, pDistX, qDistX, dDistN,
+                                         pDistN, qDistN)
 {
   epsilon = 1/1000000000 # Erreur acceptable
-  
+
   # On veut sommer suffisamment de termes
   kmax = qDistN(1 - epsilon)
   jmax = qDistTheta(1 - epsilon, alpha)
   imax = qDistX(1 - epsilon)
-  
+
   ES = 0 # Initialise E[S]
-  
+
   for (k in seq(kmax))
   {
     for (j in seq(jmax))
     {
       for (i in seq(imax))
       {
-        ES = ES + k / dDistN(k) * dDistTheta(j, alpha) * (i * h * (exp(-j * tlsinvDistTheta(pDistN(k), alpha)) - 
-                                                    exp(-j * tlsinvDistTheta(pDistN(k - 1), alpha))) * (exp(-j * tlsinvDistTheta(pDistX(i), alpha)) - 
-                                                                                                   exp(-j * tlsinvDistTheta(pDistX(i - 1), alpha))))
+        ES = ES + k *
+            dDistTheta(j, alpha) *
+            (i * (exp(-j *
+                          tlsinvDistTheta(pDistN(k), alpha)) -
+
+                      exp(-j * tlsinvDistTheta(pDistN(k - 1), alpha))) *
+                 (exp(-j * tlsinvDistTheta(pDistX(i), alpha)) -
+
+                      exp(-j * tlsinvDistTheta(pDistX(i - 1), alpha))))
       }
     }
   }

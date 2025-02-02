@@ -16,7 +16,9 @@
 ###
 
 source("modele-copule-archi/calculer_EXw_condN.R")
-calculer_varX_condN_crm_archi_simple <- function(k, alpha, tlsinvDistTheta, dDistTheta, qDistTheta, pDistX, qDistX, dDistN, pDistN)
+calculer_varX_condN_crm_archi_simple <- function(k, alpha, tlsinvDistTheta,
+                                                 dDistTheta, qDistTheta,
+                                                 pDistX, qDistX, dDistN, pDistN)
 {
   calculer_EXw_condN_crm_archi_simple(k,
                                       w = 2,
