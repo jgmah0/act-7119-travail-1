@@ -19,8 +19,9 @@ calculer_EX_cond_N_archi_hiera <- function(k, h, imax,
 {
     EX_cond_N <- 0
 
-    for (i in seq(imax))
+    for (i in 0:imax)
     {
+        print(i)
         EX_cond_N <- EX_cond_N + i * h * calculer_fNX1Xk_archi_hiera(k, i, h,
                                                                      tlsInvTh0,
                                                                      pDistN,
@@ -42,7 +43,7 @@ calculer_EX2_cond_N_archi_hiera <- function(k, h, imax,
 {
     EX_cond_N <- 0
 
-    for (i in seq(imax))
+    for (i in 0:imax)
     {
         EX_cond_N <- EX_cond_N + ((i * h)^2) *
             calculer_fNX1Xk_archi_hiera(k, i, h,
@@ -65,8 +66,9 @@ calculer_ES_archi_hiera <- function(kmax, imax, h, tlsInvTh0, pDistN, dDistN,
 {
     ES <- 0
 
-    for (k in seq(kmax))
+    for (k in 0:kmax)
     {
+        print(paste0("k = ", k))
         ES <- ES + k * dDistN(k) * calculer_EX_cond_N_archi_hiera(k, h, imax,
                                                                   tlsInvTh0,
                                                                   pDistN,

@@ -11,3 +11,8 @@ dnbinom_essais <- function(k, n, q)
     choose(k - 1, n - 1) * (q^n) * ((1 - q)^(k - n))
 }
 
+pnbinom_essais <- function(k, n, q)
+{
+    sum(dnbinom_essais(n:k, n, q))
+}
+

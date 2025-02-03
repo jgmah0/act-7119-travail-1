@@ -73,7 +73,7 @@ calculer_VarS_archi_hiera <- function(kmax, imax, h, tlsInvTh0, pDistN, dDistN,
     VarS <- 0
     var_N_EX_cond_N_terme1 <- 0
 
-    for (k in seq(kmax))
+    for (k in 0:kmax)
     {
         VarS <- VarS +
             dDistN(k) *

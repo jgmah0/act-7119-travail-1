@@ -19,11 +19,11 @@ approximer_kmax <- function(pDistN, threshold)
     kmax
 }
 
-approximer_kmax_version_2 <- function(dDistN, threshold)
+approximer_kmax_version_2 <- function(dDistN, borne_inf_support, threshold)
 {
-    kmax <- 0 # initialisation à 0
+    kmax <- borne_inf_support # initialisation à 0
 
-    while (sum(dDistN(seq(kmax))) <= 1 - threshold)
+    while (sum(dDistN(borne_inf_support:kmax)) <= 1 - threshold)
     {
         kmax <- kmax + 1
     }
