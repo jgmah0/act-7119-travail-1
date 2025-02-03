@@ -16,11 +16,12 @@ source("modele-copule-archi/geom_shifted.R")
 source("modele-copule-archi/calculer_fS.R")
 #### Validation des résultats simulation versus numérique
 ### echantillon
+n = 1000000
 alpha <- 0.4
 lam <- 3
 lam2 <- 100
 set.seed(20250202)
-sim <- echantillonner_crm_cop_archi(1000000,
+sim <- echantillonner_crm_cop_archi(n,
                              qDistTheta = function(x) qgeo_shifted(x, alpha),
                              tlsTheta = function(x) (1-alpha) * exp(-x) / (1 - alpha * exp(-x)),
                              qDistN = function(x) qpois(x, lam),
@@ -59,7 +60,9 @@ for (k in 1:16)
 
 sum((1:16) * dpois(1:16, lam) * Exw) # donne comme le calcul de ES
 
-fs <- calculer_fS_archi_simple(nfft = 2^15, alpha = alpha,
+nfft = 2^15
+
+fs <- calculer_fS_archi_simple(nfft = nfft, alpha = alpha,
                                tlsinvDistTheta = function(x, alpha) log((1-alpha)/x + alpha),
                                dDistTheta = function(x, alpha) dgeo_shifted(x, alpha),
                                qDistTheta = function(x, alpha) qgeo_shifted(x, alpha),
@@ -67,7 +70,7 @@ fs <- calculer_fS_archi_simple(nfft = 2^15, alpha = alpha,
                                qDistN = function(x) qpois(x, lam),
                                pDistN = function(x) ppois(x, lam))
 sum(fs)
-sum(0:(2^15-1) * fs)
+sum(0:(nfft-1) * fs)
 ## EX|N , Frep cond X | N
 k <- 4
 X_N <- simul[simul[, 1] == k, 2:(k+1)]
@@ -92,3 +95,33 @@ sum(fxn)
 xx <- 110
 mean(X_N <= xx)
 cumsum(fxn)[xx]
+
+## VaR_k(S)
+kap = 0.9
+
+VaR_kapp_discr(kapp = kap,
+               h = 1,
+               fx = fs)
+
+sort(S)[n*kap]
+
+## TVaR_k(S)
+kap = 0.9
+
+mean(sort(S)[(n*kap + 1):n])
+TVaR_kapp_discr(kapp = kap,
+                h = 1,
+                fx = fs) # reste à ajuster pour considérer k réellement
+
+# Mesure entropique
+rho = 0.001 # prendre petite valeur parce que ça peut rapidement exploser
+
+1/rho * log(mean(exp(rho*S)))
+Mesure_entropique_discr(rho = rho,
+                        fx = fs)
+
+
+
+
+
+
