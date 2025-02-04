@@ -95,23 +95,23 @@ VaR_kapp_discr <- function(kapp, h, fx)
 }
 # fxx <- discr(0.01, function(x) plnorm(x, log(10) - 0.32, 0.8),
 #              function(x) qlnorm(x, log(10) - 0.32, 0.8),
-#              method = "lower")
-#
-# F_xx <- cumsum(fxx)
-#
-#
-#
-# VaR_kapp_methode(0.9999, 0.01, fxx)
+#              method = "upper", tol = 10^(-12))
+
+#VaR_kapp_discr(0.9999, 0.01, fs)
 
 TVaR_kapp_discr <- function(kapp, h, fx)
 {
   1 / (1 - kapp) *
-    sum(pmax(seq(length(fx)) - 1 - VaR_kapp_discr(kapp, h, fx), 0) * fx) +
+    sum(pmax((seq(length(fx)) - 1) * h - VaR_kapp_discr(kapp, h, fx), 0) * fx) +
     VaR_kapp_discr(kapp, h, fx)
 }
 
-Mesure_entropique_discr <- function(rho, fx)
+#TVaR_kapp_discr(0.9999, 0.01, fs)
+
+Mesure_entropique_discr <- function(rho, h, fx)
 {
-  1/rho * log(sum(exp(rho * (seq(length(fx)) - 1))*fx))
+  1/rho * log(sum(exp(rho * (seq(length(fx)) - 1) * h )*fx))
 }
+
+#Mesure_entropique_discr(0.0001, 0.01, fs)
 
