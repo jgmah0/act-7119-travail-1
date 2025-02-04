@@ -56,6 +56,18 @@ tls_inv_geom_essais_comp_geom_essais <- function(u, q0, q1)
     tls_inv_geom_essais(fgp_inv_geom_essais(u, q0), q1)
 }
 
+# TLS pour le modèle avec copule Archimédienne hiérarchique
+# geom-geom
+tls_geom_essais <- function(t, q)
+{
+    (q * exp(-t)) / (1 - (1 - q) * exp(-t))
+}
+
+fgp_geom_essais <- function(t, q)
+{
+    (q * t) / (1 - (1 - q) * t)
+}
+
 
 ### Discrétiser
 discr <- function(h, pDistX, qDistX,
@@ -93,8 +105,8 @@ VaR_kapp_discr <- function(kapp, h, fx)
 
 TVaR_kapp_discr <- function(kapp, h, fx)
 {
-  1 / (1 - kapp) * 
-    sum(pmax(seq(length(fx)) - 1 - VaR_kapp_discr(kapp, h, fx), 0) * fx) + 
+  1 / (1 - kapp) *
+    sum(pmax(seq(length(fx)) - 1 - VaR_kapp_discr(kapp, h, fx), 0) * fx) +
     VaR_kapp_discr(kapp, h, fx)
 }
 

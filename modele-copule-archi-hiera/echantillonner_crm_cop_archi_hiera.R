@@ -26,6 +26,8 @@ echantillonner_crm_cop_archi_hiera <- function(n, qDistTheta0, tlsTheta0, qDistB
 
   for (i in seq(n))
   {
+    realisation_i <- numeric(0)
+    print(i)
     # Stocker la réalisation i de N
     realisation_i[1] <- realisations_N[i]
 
@@ -33,17 +35,22 @@ echantillonner_crm_cop_archi_hiera <- function(n, qDistTheta0, tlsTheta0, qDistB
     {
 
       Theta01 <- sum(qDistB(runif(theta0[i]))) # Échantilonner Theta01
+      R_X <- rexp(realisations_N[i]) # Échantilonner R_i
+      U_X <- tlsTheta1(R_X / Theta01) # Calculer U_i
+      X_X = qDistX(U_X) # Calculer X_i
+
+      realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
 
       # Pour i = 1,...,N
-      for (j in seq(realisations_N[i]))
-      {
-
-        R_X <- rexp(1) # Échantilonner R_i
-        U_X <- tlsTheta1(R_X / Theta01) # Calculer U_i
-        X_X = qDistX(U_X) # Calculer X_i
-
-        realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
-      }
+      # for (j in seq(realisations_N[i]))
+      # {
+      #
+      #   R_X <- rexp(1) # Échantilonner R_i
+      #   U_X <- tlsTheta1(R_X / Theta01) # Calculer U_i
+      #   X_X = qDistX(U_X) # Calculer X_i
+      #
+      #   realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
+      # }
     }
 
     if (realisation_i[1] > max_N_i)

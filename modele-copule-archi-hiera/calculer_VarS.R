@@ -23,11 +23,11 @@ calculer_VarX_cond_N_archi_hiera <- function(k, h, imax,
                                     tlsInvTh1, pDistX,
                                     dDistTh0, dDistTh01,
                                     seuil) -
-        calculer_EX_cond_N_archi_hiera(k, h, imax,
+        (calculer_EX_cond_N_archi_hiera(k, h, imax,
                                        tlsInvTh0, pDistN, dDistN,
                                        tlsInvTh1, pDistX,
                                        dDistTh0, dDistTh01,
-                                       seuil)
+                                       seuil)^2)
 }
 
 calculer_CovX1X2_cond_N_archi_hiera <- function(k, h, imax, tlsInvTh0, pDistN,

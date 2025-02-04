@@ -67,6 +67,9 @@ calculer_fNX1Xk_archi_hiera <- function(k, vec_i, h,
     {
         f_conj_comp_temp <- 0
 
+        # Est-ce que cela est toujours vrai que le support commence à th0 pour Theta01 toujours?
+        # Je crois que oui, car B est strictement positif et "theta0" termes
+        # sont sommés.
         kmax_th01 <- approximer_kmax_version_2(function(x) dDistTh01(x, th0), borne_inf_support = th0, threshold = seuil)
         for (th01 in seq(kmax_th01))
         {
