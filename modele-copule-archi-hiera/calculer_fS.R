@@ -9,6 +9,7 @@
 ###
 ##
 
+source("calculer_fmp_conjointe_composantes.R")
 
 # Fmp de S au complet selon taille nfft.
 calculer_fS_archi_hiera <- function(nfft, kmax, h, tlsInvTh0, pDistN,

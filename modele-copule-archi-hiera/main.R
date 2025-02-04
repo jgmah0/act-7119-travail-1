@@ -25,7 +25,7 @@ source("calculer_VarS.R")
 
 kmax <- approximer_kmax_version_2(function(x) dpois(x, 1.2),
                                   borne_inf_support = 0,
-                                  threshold = 0.0001)
+                                  threshold = 0.0000001)
 h <- 1
 imax <- ceiling(qgamma(1 - 0.00001, 3, 0.001) / h)
 q0 <- 0.5
@@ -68,7 +68,7 @@ mean(rowSums(ech[, -1])) # E[S] empirique
 var(rowSums(ech[, -1])) # Var(S) empirique
 
 
-fS <- calculer_fS_archi_hiera(2^14, kmax, h,
+fS <- calculer_fS_archi_hiera(2^17, kmax, h,
                               function(x) tls_inv_geom_essais(x, q0),
                               function(x) ppois(x, 1.2),
                               function(x) dpois(x, 1.2),
