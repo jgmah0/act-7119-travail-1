@@ -97,7 +97,7 @@ VaR_kapp_discr <- function(kapp, h, fx)
 #              function(x) qlnorm(x, log(10) - 0.32, 0.8),
 #              method = "upper", tol = 10^(-12))
 
-VaR_kapp_discr(0.9999, 0.01, fs)
+#VaR_kapp_discr(0.9999, 0.01, fs)
 
 TVaR_kapp_discr <- function(kapp, h, fx)
 {
@@ -106,11 +106,12 @@ TVaR_kapp_discr <- function(kapp, h, fx)
     VaR_kapp_discr(kapp, h, fx)
 }
 
-TVaR_kapp_discr(0.9999, 0.01, fs)
+#TVaR_kapp_discr(0.9999, 0.01, fs)
 
-Mesure_entropique_discr <- function(rho, fx)
+Mesure_entropique_discr <- function(rho, h, fx)
 {
-  1/rho * log(sum(exp(rho * (seq(length(fx)) - 1) * h)*fx))
+  1/rho * log(sum(exp(rho * (seq(length(fx)) - 1) * h )*fx))
 }
 
-Mesure_entropique_discr(0.0001, fs)
+#Mesure_entropique_discr(0.0001, 0.01, fs)
+
