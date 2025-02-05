@@ -38,6 +38,32 @@ qlogarithmique <- function(u, ga)
     i
 }
 
+dlogarithmique_alpha <- function(x, al)
+{
+    ga <- 1 - exp(-al)
+    -((ga^x) / (x * log(1 - ga)))
+}
+
+qlogarithmique_alpha <- function(u, al)
+{
+    ga <- 1 - exp(-al)
+    somme_prob <- 0
+    i <- 0
+    while (somme_prob < u)
+    {
+        i <- i + 1
+        somme_prob <- somme_prob + dlogarithmique(i, ga)
+    }
+
+    i
+}
+
+# Référence : Annexe A de [Cossette et al., 2018]
+tls_inv_logarithmic <- function(u, al)
+{
+    - log((1 - exp(- al * u)) / (1 - exp(-al)))
+}
+
 
 # TLS inverse pour le modèle avec copule Archimédienne hiérarchique
 # geom-geom
