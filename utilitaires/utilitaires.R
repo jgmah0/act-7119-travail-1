@@ -110,8 +110,23 @@ TVaR_kapp_discr <- function(kapp, h, fx)
     VaR_kapp_discr(kapp, h, fx)
 }
 
+# v2 avec pas de discrétisation dans la stop loss
+TVaR_kapp_discr_v2 <- function(kapp, h, fx)
+{
+    1 / (1 - kapp) *
+        sum(pmax((seq(length(fx)) - 1) * h - VaR_kapp_discr(kapp, h, fx), 0) * fx) +
+        VaR_kapp_discr(kapp, h, fx)
+}
+
+
 Mesure_entropique_discr <- function(rho, fx)
 {
   1/rho * log(sum(exp(rho * (seq(length(fx)) - 1))*fx))
+}
+
+
+Mesure_entropique_discr_v2 <- function(rho, h, fx)
+{
+    1/rho * log(sum(exp(rho * ((seq(length(fx)) - 1)) * h)*fx))
 }
 
