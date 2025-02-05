@@ -5,13 +5,22 @@
 ###
 
 
-# À tester.
-echantillonner_crm_cop_archi <- function(n, qDistTheta, tlsTheta, qDistN, qDistX)
+echantillonner_crm_cop_archi <- function(n, qDistTheta, tlsTheta, qDistN, qDistX, q_theta_not_vectorized = FALSE)
 {
   realisations <- list()
   realisation_i <- vector(mode = "numeric")
+  theta <- numeric(0)
 
-  theta <- qDistTheta(runif(n)) # Échantillonner theta
+  if (q_theta_not_vectorized)
+  {
+      theta <- sapply(runif(n), function(y) qDistTheta(y)) # Échantillonner theta
+      print(summary(theta))
+  }
+  else
+  {
+      theta <- qDistTheta(runif(n)) # Échantillonner theta
+  }
+
   R <- rexp(n) # Échantillonner R
   U <- tlsTheta(R / theta) # Calculer U
 
@@ -23,6 +32,7 @@ echantillonner_crm_cop_archi <- function(n, qDistTheta, tlsTheta, qDistN, qDistX
 
   for (i in seq(n))
   {
+    print(i)
     # Stocker la réalisation i de N
     realisation_i <- vector(mode = "numeric")
     realisation_i[1] <- realisations_N[i]
