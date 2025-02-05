@@ -5,7 +5,7 @@
 ###
 ##
 
-echantillonner_modele_4 <- function(n, qDistN, qDistX, rseed = 201)
+echantillonner_modele_4 <- function(n, qDistN, qDistX)
 {
     realisations <- list()
     realisation_i <- vector(mode = "numeric")
