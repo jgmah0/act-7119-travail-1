@@ -147,17 +147,17 @@ Mesure_entropique_discr_v2(0.0001, h, fS_cas4)
 
 
 # Fonction de répartition de la v.a. S
-plot((0:15000) * h, cumsum(fS_cas1[1:15001]), lwd = 2, type = "l", col = "green", xlab = "ih", ylab = "F.m.p. de S")
+plot((0:15000) * h, cumsum(fS_cas1[1:15001]), lwd = 1.4, type = "l", col = "green", xlab = "ih", ylab = "F.m.p. de S")
 title("F.m.p. de la v.a. S d'un CRM avec dépendance modélisée\npar une copule de Frank de paramètre alpha")
-lines((0:15000) * h, cumsum(fS_cas2[1:15001]), lwd = 2, col = "blue")
-lines((0:15000) * h, cumsum(fS_cas3[1:15001]), lwd = 2, col = "purple")
-lines((0:15000) * h, cumsum(fS_cas4[1:15001]), lwd = 2, col = "orange")
+lines((0:15000) * h, cumsum(fS_cas2[1:15001]), lwd = 1.4, col = "blue")
+lines((0:15000) * h, cumsum(fS_cas3[1:15001]), lwd = 1.4, col = "purple")
+lines((0:15000) * h, cumsum(fS_cas4[1:15001]), lwd = 1.4, col = "orange")
 legend(10000, 0.6, c("alpha = 0.1",
                     "alpha = 0.2",
                     "alpha = 0.5",
                     "alpha = 0.8"),
        col = c("green", "blue", "purple", "orange"),
-       lwd = rep(2.5, 4))
+       lwd = rep(1.4, 4))
 
 
 # f.m.p. conditionnelle à N = k de X
@@ -205,19 +205,19 @@ fx_cond_N5 <- sapply(0:6000,
 
 sup_fx_cond <- 0:6000
 
-plot(sup_fx_cond, fx_cond_N1, type = "l", lwd = 3, col = "blue", xlab = "ih", ylab = "F.m.p. de X sachant N = k")
+plot(sup_fx_cond, fx_cond_N1, type = "l", lwd = 2, col = "blue", xlab = "ih", ylab = "F.m.p. de X sachant N = k")
 title("F.m.p. de X sachant N = k (pour k = 1, ..., 5) dans le contexte d'un\nCRM avec dépendance selon une copule de Frank de paramètre 0.5")
-lines(sup_fx_cond, fx_cond_N2, lwd = 3, col = "green")
-lines(sup_fx_cond, fx_cond_N3, lwd = 3, col = "orange")
-lines(sup_fx_cond, fx_cond_N4, lwd = 3, col = "purple")
-lines(sup_fx_cond, fx_cond_N5, lwd = 3, col = "red")
+lines(sup_fx_cond, fx_cond_N2, lwd = 2, col = "green")
+lines(sup_fx_cond, fx_cond_N3, lwd = 2, col = "orange")
+lines(sup_fx_cond, fx_cond_N4, lwd = 2, col = "purple")
+lines(sup_fx_cond, fx_cond_N5, lwd = 2, col = "red")
 legend(4000, 0.00055, c("f_{X | N = 1} (ih)",
                         "f_{X | N = 2} (ih)",
                         "f_{X | N = 3} (ih)",
                         "f_{X | N = 4} (ih)",
                         "f_{X | N = 5} (ih)"),
        col = c("blue", "green", "orange", "purple", "red"),
-       lwd = rep(3, 5))
+       lwd = rep(2, 5))
 
 
 

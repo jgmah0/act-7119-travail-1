@@ -99,7 +99,7 @@ calculer_fSfft_archi_simple <- function(nfft, alpha, tlsinvDistTheta, dDistTheta
 
 
 # Vérification qu'on somme à 1
-source("geom_shifted.R")
+# source("geom_shifted.R")
 fs <- calculer_fS_archi_simple(nfft = 2^9, alpha = 0.2,
                                                          tlsinvDistTheta = function(x, alpha) log((1-alpha)/x + alpha),
                                                          dDistTheta = function(x, alpha) dgeo_shifted(x, alpha),

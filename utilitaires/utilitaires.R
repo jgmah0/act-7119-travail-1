@@ -100,6 +100,12 @@ fgp_geom_essais <- function(t, q)
     (q * t) / (1 - (1 - q) * t)
 }
 
+# TLS de la loi gamma (référence : Annexe A de [Cossette et al., 2019])
+tls_gamma <- function(t, al, be)
+{
+    (be / (be + t))^al
+}
+
 
 ### Discrétiser
 discr <- function(h, pDistX, qDistX,

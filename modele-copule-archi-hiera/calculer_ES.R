@@ -9,7 +9,7 @@
 ###
 ##
 
-source("calculer_fmp_conjointe_composantes.R")
+# source("calculer_fmp_conjointe_composantes.R")
 
 calculer_EX_cond_N_archi_hiera <- function(k, h, imax,
                                            tlsInvTh0, pDistN, dDistN,
