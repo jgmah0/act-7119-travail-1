@@ -101,7 +101,7 @@ calculer_fX_cond_N_archi_hiera <- function(k, i, h,
                                            dDistTh0, dDistTh01,
                                            seuil)
 {
-    (1 / (pDistN(k) - pDistN(k - 1))) * calculer_fNX1Xk_archi_hiera(k, i * h,
+    (1 / (pDistN(k) - pDistN(k - 1))) * calculer_fNX1Xk_archi_hiera(k, i, h,
                                                                     tlsInvTh0,
                                                                     pDistN,
                                                                     tlsInvTh1,
