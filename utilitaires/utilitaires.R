@@ -83,6 +83,11 @@ tls_inv_geom_essais <- function(u, q)
     log(( q + u * (1 - q) ) / u)
 }
 
+tls_inv_geom_essais_alpha <- function(u, al)
+{
+    log(( 1 - al + u * (al) ) / u)
+}
+
 tls_inv_geom_essais_comp_geom_essais <- function(u, q0, q1)
 {
     tls_inv_geom_essais(fgp_inv_geom_essais(u, q0), q1)
@@ -93,6 +98,11 @@ tls_inv_geom_essais_comp_geom_essais <- function(u, q0, q1)
 tls_geom_essais <- function(t, q)
 {
     (q * exp(-t)) / (1 - (1 - q) * exp(-t))
+}
+
+tls_geom_essais_alpha <- function(t, al)
+{
+    ((1 - al) * exp(-t)) / (1 - (al) * exp(-t))
 }
 
 fgp_geom_essais <- function(t, q)
