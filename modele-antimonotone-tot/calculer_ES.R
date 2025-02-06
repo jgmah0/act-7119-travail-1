@@ -21,3 +21,16 @@ calculer_ES_crm_antimonotones <- function(pDistN, qDistX, kmax)
 
     ES
 }
+
+calculer_EStronq_crm_antimonotones <- function(d, pDistN, qDistX, kmax)
+{
+    ES <- 0
+
+    for (i in seq(kmax))
+    {
+        ES <- ES + integrate(function(y) (i * qDistX(1 - y)) * ((i * qDistX(1 - y)) > d ), pDistN(i - 1), pDistN(i))$value
+    }
+
+    ES
+}
+

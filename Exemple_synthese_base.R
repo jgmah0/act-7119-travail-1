@@ -6,7 +6,6 @@
 ###
 ###
 ##
-
 source("modele-comonotonicite-tot/calculer_ES.R")
 source("modele-comonotonicite-tot/calculer_frep_XcondN.R")
 source("modele-comonotonicite-tot/calculer_mesures_risque_S.R")
@@ -17,29 +16,83 @@ source("modele-antimonotone-tot/calculer_frep_XcondN.R")
 source("modele-antimonotone-tot/calculer_mesures_risque_S.R")
 source("modele-antimonotone-tot/echantillonner_model_4.R")
 
+source("modele-independance/echantillonner_modele_2.R")
+source("modele-independance-comonotone/echantillonner_modele_1.R")
+source("modele-independance/echantillonner_modele_2.R")
+
 lam <- 2
 bet <- 1 / 100
 
 kappa <- 0.95
 
-rho <- 0.001
+rho <- 0.0001
 
 
 ### Modèle classique (indépendance)
 
 ## TVaR
-1 / (1 - kappa) * sum(dpois(1:15, lam) * (1/bet) * (1:15) *
-                          pgamma(qgamma(kappa, (1:15), bet),  (1:15) + 1, bet,
+FS <- function(x) dpois(0, lam) + sum(dpois(1:20, lam) * pgamma(x, 1:20, bet))
+
+v <- optimize(function(a) abs(FS(a) - kappa), c(0, 1000))$minimum
+
+1 / (1 - kappa) * sum(dpois(1:20, lam) * (1:20)/bet *
+                          pgamma(v,  (1:20) + 1, bet,
                                  lower.tail = FALSE))
 ## Mesure entropique
 
-1 / rho * log(exp(2 * (bet / (bet - rho) - 1)))
+1 / rho * log(exp(lam * (bet / (bet - rho) - 1)))
 
 
+## validation par simulation
+set.seed(1053)
+nsim <- 1000000
+simul <- echantillonner_modele_2(nsim, function(x) qpois(x, lam),
+                        function(x) qexp(x, bet))
+
+sim <- structurer_echantillon(simul$realisations, simul$max_N_i)
+
+S <- rowSums(sim[, -1])
+
+mean(S) # E[S]
+mean(sim[sim[, 1] == 2, 2:3]) # E[X|N=2]
+
+So <- sort(S)
+
+v <- So[nsim * kappa]
+v + 1 / (1 - kappa) * mean(pmax(S - v, 0))
+log(mean(exp(rho * S)))/rho
 
 ### Modèle avec indépendance et comonotonicité
-sum(dpois(1:15, lam) * (1:15) * (qexp(kappa, bet) + 1 / bet))
+FS <- function(x) dpois(0, lam) + sum(dpois(1:20, lam) * pexp(x / 1:20, bet))
 
+v <- optimize(function(a) abs(FS(a) - kappa), c(0, 1500))$minimum
+
+estronq_d <- function(d) 1 / bet * exp(-bet * d) + d * exp(-bet * d)
+
+sum(dpois(1:15, lam) * (1:15) * estronq_d(v/(1:15))) / (1 - kappa)
+
+ms <- function(t) sum(dpois(0:20, lam) * bet / (bet - t * (0:20)))
+
+log(ms(0.0001)) /  0.0001
+
+## validation par simulation
+set.seed(1053)
+nsim <- 1000000
+simul <- echantillonner_modele_1(nsim, function(x) qpois(x, lam),
+                                 function(x) qexp(x, bet))
+
+sim <- structurer_echantillon(simul$realisations, simul$max_N_i)
+
+S <- rowSums(sim[, -1])
+
+mean(S) # E[S]
+mean(sim[sim[, 1] == 2, 2:3]) # E[X|N=2]
+
+So <- sort(S)
+
+v <- So[nsim * kappa]
+v + 1 / (1 - kappa) * mean(pmax(S - v, 0))
+log(mean(exp(rho * S)))/rho
 ### Modèle avec composantes comonotones
 cbind(0:15, ppois(0:15, lam), 1- ppois(0:15, lam))
 
@@ -79,9 +132,30 @@ calculer_TVaRS_crm_comonotonicite(0.95, function(x) qpois(x, lam),
                                  function(x) qexp(x, bet))
 
 ## Mesure entropique
-calculer_entropique_crm_comonotonicite(0.001, function(x) ppois(x, lam),
+calculer_entropique_crm_comonotonicite(0.0001, function(x) ppois(x, lam),
                                        function(x) qpois(x, lam),
                                        function(x) qexp(x, bet), 12)
+
+
+## validation par simulation
+set.seed(1053)
+nsim <- 1000000
+simul <- echantillonner_modele_3(nsim, function(x) qpois(x, lam),
+                                 function(x) qexp(x, bet))
+
+sim <- structurer_echantillon(simul$realisations, simul$max_N_i)
+
+S <- rowSums(sim[, -1])
+
+mean(S) # E[S]
+mean(sim[sim[, 1] == 2, 2:3]) # E[X|N=2]
+
+So <- sort(S)
+
+v <- So[nsim * kappa]
+v + 1 / (1 - kappa) * mean(pmax(S - v, 0))
+log(mean(exp(rho * S)))/rho
+
 
 ### Modèle avec composantes antimonotones
 
@@ -92,12 +166,35 @@ calculer_ES_crm_antimonotones(function(x) ppois(x, lam),
 1 / (ppois(2, lam) - ppois(1, lam)) * (ppois(2, lam) * tvarX(1 - ppois(2, lam), bet) -
                                            ppois(1, lam) * tvarX(1 - ppois(1, lam), bet))
 
-calculer_TVaRS_crm_antimonotones(0.95, function(x) qpois(x, lam),
+vv <- calculer_VaRS_crm_antimonotones(0.95, function(x) ppois(x, lam),
+                                function(x) qexp(x, bet), 15)
+
+calculer_TVaRS_crm_antimonotones(0.95, function(x) ppois(x, lam),
                                  function(x) qexp(x, bet))
 
-calculer_entropique_crm_antimonotones(0.001, function(x) ppois(x, lam),
+calculer_entropique_crm_antimonotones(0.0001, function(x) ppois(x, lam),
                                       function(x) qpois(x, lam),
                                       function(x) qexp(x, bet), 15)
+
+
+## validation par simulation
+set.seed(1053)
+nsim <- 1000000
+simul <- echantillonner_modele_4(nsim, function(x) qpois(x, lam),
+                                 function(x) qexp(x, bet))
+
+sim <- structurer_echantillon(simul$realisations, simul$max_N_i)
+
+S <- rowSums(sim[, -1])
+
+mean(S) # E[S]
+mean(sim[sim[, 1] == 2, 2:3]) # E[X|N=2]
+
+So <- sort(S)
+
+v <- So[nsim * kappa]
+v + 1 / (1 - kappa) * mean(pmax(S - v, 0))
+log(mean(exp(rho * S)))/rho
 
 ##### Densités conditionnelles #####
 ### Avec composantes comonotones

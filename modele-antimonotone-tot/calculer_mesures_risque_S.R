@@ -5,29 +5,33 @@
 ###
 ### Exemples :
 ### calculer_VaRS_crm_antimonotones(0.99,
-###                                  function(x) qpois(x, 2),
-###                                  function(x) qexp(x, 0.01))
+###                                  function(x) ppois(x, 2),
+###                                  function(x) qexp(x, 0.01), 15)
 ###
 ### calculer_TVaRS_crm_antimonotones(0.99,
-###                                   function(x) qpois(x, 2),
+###                                   function(x) ppois(x, 2),
 ###                                   function(x) qexp(x, 0.01))
 ###
 ##
-
-calculer_VaRS_crm_antimonotones <- function(k, qDistN, qDistX)
+source("modele-antimonotone-tot/calculer_FS.R")
+source("modele-antimonotone-tot/calculer_ES.R")
+calculer_VaRS_crm_antimonotones <- function(k, pDistN, qDistX, kmax)
 {
-    qDistN(k) * qDistX(1 - k)
+    optimize(function(a) abs(calculer_FS_crm_antimonotones(a, pDistN, qDistX, kmax) - k),
+             c(0, 500))$minimum
 }
 
 
-calculer_TVaRS_crm_antimonotones <- function(k, qDistN, qDistX)
+calculer_TVaRS_crm_antimonotones <- function(k, pDistN, qDistX)
 {
+    vv <- optimize(function(a) abs(calculer_FS_crm_antimonotones(a,
+                                                                 pDistN,
+                                                                 qDistX,
+                                            15) - 0.95), c(0, 300))$minimum
     (1 / (1 - k)) *
-        integrate(function(x) calculer_VaRS_crm_antimonotones(x,
-                                                               qDistN,
-                                                               qDistX),
-                  k,
-                  1)$value
+        calculer_EStronq_crm_antimonotones(vv, pDistN,
+                                           qDistX,
+                                           15)
 }
 
 calculer_entropique_crm_antimonotones <- function(rho, pDistN, qDistN, qDistX, kmax)
