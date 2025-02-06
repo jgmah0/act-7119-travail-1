@@ -91,6 +91,7 @@ lambdaPois <- 2
 alphaGa <- 3
 betaGa <- 0.002
 al_theta <- c(0.2, 0.5, 1, 3)
+# al_theta <- c(0.2, 0.5, 1, 2)
 n <- 1000000
 
 

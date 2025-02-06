@@ -14,26 +14,28 @@
 ###                                     qDistX = function(x) qpois(x, 10),
 ###                                     dDistN = function(x) dpois(x, 2),
 ###                                     pDistN = function(x) ppois(x, 2))
-###                              
+###
 
 # E[X^w|N=k]
 calculer_EXw_condN_crm_archi_simple <- function(k, w, alpha, tlsinvDistTheta, dDistTheta, qDistTheta, pDistX, qDistX, dDistN, pDistN)
 {
   epsilon = 1/1000000000 # Erreur acceptable
-  
+
   # On veut sommer suffisamment de termes
   jmax = qDistTheta(1 - epsilon, alpha)
   imax = qDistX(1 - epsilon)
-  
+
   EXw_condN = 0 # Initialise E[X^w|N=k]
-  
+
   for (j in seq(jmax))
   {
     for (i in seq(imax))
     {
-      EXw_condN = EXw_condN + dDistTheta(j, alpha) * i^w * (exp(-j * tlsinvDistTheta(pDistN(k), alpha)) - 
-                                                   exp(-j * tlsinvDistTheta(pDistN(k - 1), alpha))) * (exp(-j * tlsinvDistTheta(pDistX(i), alpha)) - 
-                                                                                                  exp(-j * tlsinvDistTheta(pDistX(i - 1), alpha)))
+      EXw_condN = EXw_condN +
+          dDistTheta(j, alpha) * i^w * (exp(-j * tlsinvDistTheta(pDistN(k), alpha)) -
+                                            exp(-j * tlsinvDistTheta(pDistN(k - 1), alpha))) *
+          (exp(-j * tlsinvDistTheta(pDistX(i), alpha)) -
+               exp(-j * tlsinvDistTheta(pDistX(i - 1), alpha)))
     }
   }
   EXw_condN / dDistN(k)

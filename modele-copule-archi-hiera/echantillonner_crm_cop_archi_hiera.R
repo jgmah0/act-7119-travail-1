@@ -5,7 +5,6 @@
 ##
 
 
-# À tester.
 echantillonner_crm_cop_archi_hiera <- function(n, qDistTheta0, tlsTheta0, qDistB, tlsTheta1, qDistN, qDistX)
 {
   realisations <- list()
@@ -40,17 +39,6 @@ echantillonner_crm_cop_archi_hiera <- function(n, qDistTheta0, tlsTheta0, qDistB
       X_X = qDistX(U_X) # Calculer X_i
 
       realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
-
-      # Pour i = 1,...,N
-      # for (j in seq(realisations_N[i]))
-      # {
-      #
-      #   R_X <- rexp(1) # Échantilonner R_i
-      #   U_X <- tlsTheta1(R_X / Theta01) # Calculer U_i
-      #   X_X = qDistX(U_X) # Calculer X_i
-      #
-      #   realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
-      # }
     }
 
     if (realisation_i[1] > max_N_i)
@@ -104,17 +92,6 @@ echantillonner_crm_cop_archi_hiera_rc <- function(n, qDistTheta0, tlsTheta0, qDi
             X_X = qDistX(U_X) # Calculer X_i
 
             realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
-
-            # Pour i = 1,...,N
-            # for (j in seq(realisations_N[i]))
-            # {
-            #
-            #   R_X <- rexp(1) # Échantilonner R_i
-            #   U_X <- tlsTheta1(R_X / Theta01) # Calculer U_i
-            #   X_X = qDistX(U_X) # Calculer X_i
-            #
-            #   realisation_i <- c(realisation_i, X_X) # Créer le vecteur c(N, X_1,...,X_N)
-            # }
         }
 
         if (realisation_i[1] > max_N_i)

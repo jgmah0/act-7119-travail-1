@@ -11,14 +11,10 @@ calculer_indicatrice_geq <- function(xinf, xsup)
 }
 
 # Fonction pour des lois de probabilité
-qpareto <- function(x, al, la)
-{
-    # ...
-}
-
-# u = 1 - (la / (la + x))^al
-# (1 - u)^(1 / al) = la / (la + x)
-# x = la (1 - (1 - u)^(1 / al)) / ((1 - u)^(1 / al))
+# qpareto <- function(x, al, la)
+# {
+#     # ...
+# }
 
 dlogarithmique <- function(x, ga)
 {

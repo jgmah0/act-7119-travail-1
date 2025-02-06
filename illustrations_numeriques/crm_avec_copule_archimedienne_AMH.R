@@ -59,8 +59,6 @@ fS_cas4 <- calculer_fS_archi_simple(nfft,
                                     function(x) qpois(x, lambdaPois),
                                     function(x) ppois(x, lambdaPois))
 sum(fS_cas4)
-# Un pas de discrétisation de 1 semble être utilisé dans
-# "calculer_fS_archi_simple".
 h <- 1
 
 

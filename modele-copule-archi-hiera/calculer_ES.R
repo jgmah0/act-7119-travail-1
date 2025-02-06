@@ -3,10 +3,6 @@
 ### Fonction pour calculer la valeur de E[S]
 ### CRM avec copule Archimédienne hiérarchique
 ###
-### Exemple :
-### **À faire
-###
-###
 ##
 
 # source("calculer_fmp_conjointe_composantes.R")

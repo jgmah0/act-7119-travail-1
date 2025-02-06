@@ -273,15 +273,15 @@ sorted_ech_S[0.99 * n]
 sorted_ech_S[0.995 * n]
 
 
-# Échantillonnage - reverse copula
+# Échantillonnage - dépendance négative N, vecteur X
 n <- 1000000
 ech_l_rc <- echantillonner_crm_cop_archi_hiera_rc(n,
-                                            function(x) qgeo_shifted(x, 1 - q0[1]),
-                                            function(x) tls_geom_essais(x, q0[1]),
-                                            function(x) qgeo_shifted(x, 1 - q1[2]),
-                                            function(x) fgp_geom_essais(tls_geom_essais(x, q1[2]), q0[1]),
-                                            function(x) qpois(x, lambdaPois),
-                                            function(x) qgamma(x, alphaGa, betaGa))
+                                                  function(x) qgeo_shifted(x, 1 - q0[1]),
+                                                  function(x) tls_geom_essais(x, q0[1]),
+                                                  function(x) qgeo_shifted(x, 1 - q1[2]),
+                                                  function(x) fgp_geom_essais(tls_geom_essais(x, q1[2]), q0[1]),
+                                                  function(x) qpois(x, lambdaPois),
+                                                  function(x) qgamma(x, alphaGa, betaGa))
 ech_rc <- structurer_echantillon(ech_l_rc$realisations, ech_l_rc$max_N_i)
 
 
@@ -292,3 +292,7 @@ ech_S_rc <- rowSums(ech_rc[, -1])
 sorted_ech_S <- sort(ech_S_rc)
 sorted_ech_S[0.99 * n]
 sorted_ech_S[0.995 * n]
+
+
+# Espérance de la v.a. S, modèle classique
+lambdaPois * (alphaGa / betaGa)

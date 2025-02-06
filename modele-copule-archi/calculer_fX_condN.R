@@ -100,11 +100,12 @@ calculer_fx_condN_crm_archi_simple_alt <- function(i, k, alpha, tlsinvDistTheta,
                                                                  theta = j,
                                                                  alpha,
                                                                  tlsinvDistTheta,
-                                                                 pDistX)*calculer_fN_condTheta_crm_archi_simple(k,
-                                                                                                                theta = j,
-                                                                                                                alpha,
-                                                                                                                tlsinvDistTheta,
-                                                                                                                pDistN)
+                                                                 pDistX)*
+        calculer_fN_condTheta_crm_archi_simple(k,
+                                               theta = j,
+                                               alpha,
+                                               tlsinvDistTheta,
+                                               pDistN)
   }
 
   fx_condN = fx_condN / dDistN(k)
