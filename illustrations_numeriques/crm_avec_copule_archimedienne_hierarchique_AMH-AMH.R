@@ -173,12 +173,12 @@ test_comparaison <- matrix(c(cumsum(fS_cas11[1:8000]), cumsum(fS_cas12[1:8000]))
 
 test_comparaison[7900:8000,]
 
-plot((0:15000) * h, cumsum(fS_cas11[1:15001]), lwd = 2, type = "l", col = "green", xlab = "ih", ylab = "F.m.p. de S")
-title("F.m.p. de la v.a. S pour diverses valeurs de alpha_0 et alpha_1\ndans le contexte d'un CRM avec dépendance\nselon une copule Archimédienne hiérarchique AMH-AMH")
+plot((0:15000) * h, cumsum(fS_cas11[1:15001]), lwd = 2, type = "l", col = "green", xlab = "ih", ylab = "F_S (ih)")
+title("Fonctions de répartition de la v.a. S pour diverses valeurs de alpha_0\net alpha_1 dans le contexte d'un CRM avec dépendance\nselon une copule Archimédienne hiérarchique AMH-AMH")
 lines((0:15000) * h, cumsum(fS_cas12[1:15001]), lwd = 1, col = "blue")
 lines((0:15000) * h, cumsum(fS_cas21[1:15001]), lwd = 2, col = "purple")
 lines((0:15000) * h, cumsum(fS_cas22[1:15001]), lwd = 1, col = "orange")
-legend(10000, 0.6, c("alpha0 = 0.3, alpha1 = 0.3",
+legend(8000, 0.6, c("alpha0 = 0.3, alpha1 = 0.3",
                "alpha0 = 0.3, alpha1 = 0.55",
                "alpha0 = 0.55, alpha1 = 0.3",
                "alpha0 = 0.55, alpha1 = 0.55"),
@@ -269,5 +269,26 @@ var(rowSums(ech[, -1])) # Var(S) empirique
 
 ech_S <- rowSums(ech[, -1])
 sorted_ech_S <- sort(ech_S)
+sorted_ech_S[0.99 * n]
+sorted_ech_S[0.995 * n]
+
+
+# Échantillonnage - reverse copula
+n <- 1000000
+ech_l_rc <- echantillonner_crm_cop_archi_hiera_rc(n,
+                                            function(x) qgeo_shifted(x, 1 - q0[1]),
+                                            function(x) tls_geom_essais(x, q0[1]),
+                                            function(x) qgeo_shifted(x, 1 - q1[2]),
+                                            function(x) fgp_geom_essais(tls_geom_essais(x, q1[2]), q0[1]),
+                                            function(x) qpois(x, lambdaPois),
+                                            function(x) qgamma(x, alphaGa, betaGa))
+ech_rc <- structurer_echantillon(ech_l_rc$realisations, ech_l_rc$max_N_i)
+
+
+mean(rowSums(ech_rc[, -1])) # E[S] empirique
+var(rowSums(ech_rc[, -1])) # Var(S) empirique
+
+ech_S_rc <- rowSums(ech_rc[, -1])
+sorted_ech_S <- sort(ech_S_rc)
 sorted_ech_S[0.99 * n]
 sorted_ech_S[0.995 * n]

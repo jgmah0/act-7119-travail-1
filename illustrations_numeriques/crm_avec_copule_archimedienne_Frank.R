@@ -56,8 +56,6 @@ fS_cas4 <- calculer_fS_archi_simple(nfft,
                                     function(x) qpois(x, lambdaPois),
                                     function(x) ppois(x, lambdaPois))
 sum(fS_cas4)
-# Un pas de discrétisation de 1 semble être utilisé dans
-# "calculer_fS_archi_simple".
 h <- 1
 
 
@@ -147,8 +145,8 @@ Mesure_entropique_discr_v2(0.0001, h, fS_cas4)
 
 
 # Fonction de répartition de la v.a. S
-plot((0:15000) * h, cumsum(fS_cas1[1:15001]), lwd = 1.4, type = "l", col = "green", xlab = "ih", ylab = "F.m.p. de S")
-title("F.m.p. de la v.a. S d'un CRM avec dépendance modélisée\npar une copule de Frank de paramètre alpha")
+plot((0:15000) * h, cumsum(fS_cas1[1:15001]), lwd = 1.4, type = "l", col = "green", xlab = "ih", ylab = "F_S (ih)")
+title("Fonctions de répartition la v.a. S d'un CRM avec dépendance modélisée\npar une copule de Frank de paramètre alpha")
 lines((0:15000) * h, cumsum(fS_cas2[1:15001]), lwd = 1.4, col = "blue")
 lines((0:15000) * h, cumsum(fS_cas3[1:15001]), lwd = 1.4, col = "purple")
 lines((0:15000) * h, cumsum(fS_cas4[1:15001]), lwd = 1.4, col = "orange")
@@ -218,37 +216,6 @@ legend(4000, 0.00055, c("f_{X | N = 1} (ih)",
                         "f_{X | N = 5} (ih)"),
        col = c("blue", "green", "orange", "purple", "red"),
        lwd = rep(2, 5))
-
-
-
-# Modèle indépendance
-# calculer_fS_modele_classique <- function(nfft, fgp_N, h, pDistX, method = "lower")
-# {
-#     fmpX <- discr_v2(nfft, h, pDistX, method = method)
-#     # if (length(fmpX) < nfft)
-#     #     stop("Erreur : length(fmpX) < nfft")
-#
-#     fmpX <- fmpX[1:nfft]
-#
-#     fft_fgp_N_fX <- fgp_N(fft(fmpX))
-#
-#
-#     Re(fft(fft_fgp_N_fX, inverse = TRUE)) / nfft
-# }
-#
-# fgp_N_poisson <- function(t, lam)
-# {
-#     exp(lam * (t - 1))
-# }
-# nfft <- 2^15
-# fS_classique <- calculer_fS_modele_classique(nfft,
-#                                              function(x) fgp_N_poisson(x, lambdaPois),
-#                                              h,
-#                                              function(x) pgamma(x, alphaGa, betaGa))
-#
-# sum(fS_classique)
-# lambdaPois * (alphaGa / betaGa) # validation
-# sum((0:(nfft - 1)) * fS_classique)
 
 
 
