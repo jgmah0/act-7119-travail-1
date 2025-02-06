@@ -5,7 +5,7 @@
 ###
 ##
 
-# On utilise le même code que celui utilisé pour le CRM avec la copule de
+# On utilise un code similaire à celui utilisé pour le CRM avec la copule de
 # Frank.
 
 source("../modele-copule-archi/geom_shifted.R")
