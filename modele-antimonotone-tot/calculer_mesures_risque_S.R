@@ -18,7 +18,7 @@ source("modele-antimonotone-tot/calculer_ES.R")
 calculer_VaRS_crm_antimonotones <- function(k, pDistN, qDistX, kmax)
 {
     optimize(function(a) abs(calculer_FS_crm_antimonotones(a, pDistN, qDistX, kmax) - k),
-             c(0, 500))$minimum
+             c(0, 4000))$minimum
 }
 
 
@@ -27,7 +27,7 @@ calculer_TVaRS_crm_antimonotones <- function(k, pDistN, qDistX)
     vv <- optimize(function(a) abs(calculer_FS_crm_antimonotones(a,
                                                                  pDistN,
                                                                  qDistX,
-                                            15) - 0.95), c(0, 300))$minimum
+                                            15) - k), c(0, 4000))$minimum
     (1 / (1 - k)) *
         calculer_EStronq_crm_antimonotones(vv, pDistN,
                                            qDistX,
