@@ -212,12 +212,44 @@ colors <- c("red", "blue", "green", "purple", "orange", "brown", "pink", "turquo
 # Première
 curve(fxsachantn(x, 1, lam, bet), xlim = c(0, 1000), n = 1e3, col = colors[1],
       ylab = "Densité",
-      xlab = "Montant d'un sinistre X",
+      xlab = "Montant d'un sinistre x",
       main = "Densité du montant de sinistre X sachant N = k\n(Comonotonicité entre la fréquence et la sévérité)")
 
 # Autres
 for (i in 2:9) {
     curve(fxsachantn(x, i, lam, bet), xlim = c(0, 1000), n = 1e3, col = colors[i], add = TRUE)
+}
+
+# Légende
+legend_labels <- sapply(1:9, function(i) bquote(f[X|N == .(i)]))
+
+# Légende
+legend("topright", legend = paste0("k = ", 1:9), col = colors, lty = 1, cex = 0.8)
+
+### Avec composantes comonotones
+Fxsachantn <- function(x, k, lam, bet)
+{
+
+    if (x > qexp(ppois(k, lam), bet))
+        return(1)
+
+    (pexp(x, bet) - ppois(k-1, lam)) / (ppois(k, lam) - ppois(k - 1, lam)) *
+        (qexp(ppois(k - 1, lam), bet) < x)
+}
+
+# Couleurs
+colors <- c("red", "blue", "green", "purple", "orange", "brown", "pink", "turquoise",
+            "darkgreen")
+
+# Première
+curve(sapply(x, function(x) Fxsachantn(x, 1, lam, bet)), xlim = c(0, 1200), ylim = c(0, 1), n = 1e3, col = colors[1],
+      ylab = "Fonction de répartition",
+      xlab = "Montant d'un sinistre x",
+      main = "Répartition montant de sinistre X sachant N = k\n(Comonotonicité entre la fréquence et la sévérité)")
+
+# Autres
+for (i in 2:9) {
+    curve(sapply(x, function(x) Fxsachantn(x, i, lam, bet)), xlim = c(0, 1200), n = 1e3, col = colors[i], add = TRUE)
 }
 
 # Légende
@@ -241,13 +273,45 @@ colors <- c("red", "blue", "darkgreen", "purple")
 # Première
 curve(fxsachantn(x, 4, lam, bet), xlim = c(0, 300), n = 1e4, col = colors[4],
       ylab = "Densité",
-      xlab = "Montant d'un sinistre X",
+      xlab = "Montant d'un sinistre x",
       main = "Densité du montant de sinistre X sachant N = k\n(Antimonotonicité entre la fréquence et la sévérité)",
       lwd = 2)
 
 # Autres
 for (i in 1:3) {
     curve(fxsachantn(x, i, lam, bet), xlim = c(0, 300), n = 1e4, col = colors[i],
+          add = TRUE, lwd = 2)
+}
+
+# Légende
+legend_labels <- sapply(1:4, function(i) bquote(f[X|N == .(i)]))
+
+# Légende
+legend("topright", legend = paste0("k = ", 1:4), col = colors, lty = 1, cex = 0.8,
+       lwd =2)
+### Répartition conditionnelle
+Fxsachantn <- function(x, k, lam, bet)
+{
+    if (x > qexp(1 - ppois(k - 1, lam), bet))
+        return(1)
+
+    (pexp(x, bet) + ppois(k, lam) - 1) / (ppois(k, lam) - ppois(k - 1, lam)) *
+        (qexp(1 - ppois(k, lam), bet) < x)
+}
+
+# Couleurs
+colors <- c("red", "blue", "darkgreen", "purple")
+
+# Première
+curve(sapply(x, function(x) Fxsachantn(x, 4, lam, bet)), xlim = c(0, 300), n = 1e4, col = colors[4],
+      ylab = "Densité",
+      xlab = "Montant d'un sinistre x",
+      main = "Répartition du montant de sinistre X sachant N = k\n(Antimonotonicité entre la fréquence et la sévérité)",
+      lwd = 2)
+
+# Autres
+for (i in 1:3) {
+    curve(sapply(x, function(x) Fxsachantn(x, i, lam, bet)), xlim = c(0, 300), n = 1e4, col = colors[i],
           add = TRUE, lwd = 2)
 }
 
