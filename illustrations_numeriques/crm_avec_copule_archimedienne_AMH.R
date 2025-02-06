@@ -1,9 +1,12 @@
 ###
 ### Travail 1, ACT-7119
 ### Illustration numérique
-### CRM avec dépendance selon une copule Archimédienne de Frank (1 facteur)
+### CRM avec dépendance selon une copule Archimédienne AMH (1 facteur)
 ###
 ##
+
+# On utilise le même code que celui utilisé pour le CRM avec la copule de
+# Frank.
 
 source("../modele-copule-archi/geom_shifted.R")
 source("../utilitaires/utilitaires.R")
@@ -16,46 +19,48 @@ lambdaPois <- 2
 
 alphaGa <- 3
 betaGa <- 0.002
-al_theta <- c(0.1, 0.2, 0.5, 0.8)
+al_theta <- c(0.1, 0.3, 0.5, 0.7)
 nfft <- 2^15
 
 
 fS_cas1 <- calculer_fS_archi_simple(nfft,
                                     al_theta[1],
-                                    function(x, al) tls_inv_logarithmic(x, al),
-                                    function(x, al) dlogarithmique_alpha(x, al),
-                                    function(x, al) qlogarithmique_alpha(x, al),
+                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                    function(x, al) dgeo_shifted(x, al),
+                                    function(x, al) qgeo_shifted(x, al),
                                     function(x) pgamma(x, alphaGa, betaGa),
                                     function(x) qpois(x, lambdaPois),
                                     function(x) ppois(x, lambdaPois))
 sum(fS_cas1)
 fS_cas2 <- calculer_fS_archi_simple(nfft,
                                     al_theta[2],
-                                    function(x, al) tls_inv_logarithmic(x, al),
-                                    function(x, al) dlogarithmique_alpha(x, al),
-                                    function(x, al) qlogarithmique_alpha(x, al),
+                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                    function(x, al) dgeo_shifted(x, al),
+                                    function(x, al) qgeo_shifted(x, al),
                                     function(x) pgamma(x, alphaGa, betaGa),
                                     function(x) qpois(x, lambdaPois),
                                     function(x) ppois(x, lambdaPois))
 sum(fS_cas2)
 fS_cas3 <- calculer_fS_archi_simple(nfft,
                                     al_theta[3],
-                                    function(x, al) tls_inv_logarithmic(x, al),
-                                    function(x, al) dlogarithmique_alpha(x, al),
-                                    function(x, al) qlogarithmique_alpha(x, al),
+                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                    function(x, al) dgeo_shifted(x, al),
+                                    function(x, al) qgeo_shifted(x, al),
                                     function(x) pgamma(x, alphaGa, betaGa),
                                     function(x) qpois(x, lambdaPois),
                                     function(x) ppois(x, lambdaPois))
 sum(fS_cas3)
 fS_cas4 <- calculer_fS_archi_simple(nfft,
                                     al_theta[4],
-                                    function(x, al) tls_inv_logarithmic(x, al),
-                                    function(x, al) dlogarithmique_alpha(x, al),
-                                    function(x, al) qlogarithmique_alpha(x, al),
+                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                    function(x, al) dgeo_shifted(x, al),
+                                    function(x, al) qgeo_shifted(x, al),
                                     function(x) pgamma(x, alphaGa, betaGa),
                                     function(x) qpois(x, lambdaPois),
                                     function(x) ppois(x, lambdaPois))
 sum(fS_cas4)
+# Un pas de discrétisation de 1 semble être utilisé dans
+# "calculer_fS_archi_simple".
 h <- 1
 
 
@@ -76,8 +81,8 @@ VaR_kapp_discr(0.995, h, fS_cas1)
 TVaR_kapp_discr_v2(0.99, h, fS_cas1)
 TVaR_kapp_discr_v2(0.995, h, fS_cas1)
 
-Mesure_entropique_discr_v2(0.001, h, fS_cas1)
 Mesure_entropique_discr_v2(0.0001, h, fS_cas1)
+Mesure_entropique_discr_v2(0.0002, h, fS_cas1)
 
 
 
@@ -98,8 +103,8 @@ VaR_kapp_discr(0.995, h, fS_cas2)
 TVaR_kapp_discr_v2(0.99, h, fS_cas2)
 TVaR_kapp_discr_v2(0.995, h, fS_cas2)
 
-Mesure_entropique_discr_v2(0.001, h, fS_cas2)
 Mesure_entropique_discr_v2(0.0001, h, fS_cas2)
+Mesure_entropique_discr_v2(0.0002, h, fS_cas2)
 
 
 # **** CAS 3
@@ -119,8 +124,8 @@ VaR_kapp_discr(0.995, h, fS_cas3)
 TVaR_kapp_discr_v2(0.99, h, fS_cas3)
 TVaR_kapp_discr_v2(0.995, h, fS_cas3)
 
-Mesure_entropique_discr_v2(0.001, h, fS_cas3)
 Mesure_entropique_discr_v2(0.0001, h, fS_cas3)
+Mesure_entropique_discr_v2(0.0002, h, fS_cas3)
 
 
 # **** CAS 4
@@ -140,63 +145,63 @@ VaR_kapp_discr(0.995, h, fS_cas4)
 TVaR_kapp_discr_v2(0.99, h, fS_cas4)
 TVaR_kapp_discr_v2(0.995, h, fS_cas4)
 
-Mesure_entropique_discr_v2(0.001, h, fS_cas4)
 Mesure_entropique_discr_v2(0.0001, h, fS_cas4)
+Mesure_entropique_discr_v2(0.0002, h, fS_cas4)
 
 
 # Fonction de répartition de la v.a. S
 plot((0:15000) * h, cumsum(fS_cas1[1:15001]), lwd = 1.4, type = "l", col = "green", xlab = "ih", ylab = "F_S (ih)")
-title("Fonctions de répartition la v.a. S d'un CRM avec dépendance modélisée\npar une copule de Frank de paramètre alpha")
+title("Fonctions de répartition de la v.a. S d'un CRM\navec copule AMH de paramètre alpha")
 lines((0:15000) * h, cumsum(fS_cas2[1:15001]), lwd = 1.4, col = "blue")
 lines((0:15000) * h, cumsum(fS_cas3[1:15001]), lwd = 1.4, col = "purple")
 lines((0:15000) * h, cumsum(fS_cas4[1:15001]), lwd = 1.4, col = "orange")
 legend(10000, 0.6, c("alpha = 0.1",
-                    "alpha = 0.2",
-                    "alpha = 0.5",
-                    "alpha = 0.8"),
+                     "alpha = 0.3",
+                     "alpha = 0.5",
+                     "alpha = 0.7"),
        col = c("green", "blue", "purple", "orange"),
        lwd = rep(1.4, 4))
 
 
 # f.m.p. conditionnelle à N = k de X
 fx_cond_N1 <- sapply(0:6000,
-                     function(y) calculer_fx_condN_crm_archi_simple(y, 1, al_theta[3],
-                                                                    function(x, al) tls_inv_logarithmic(x, al),
-                                                                    function(x, al) dlogarithmique_alpha(x, al),
-                                                                    function(x, al) qlogarithmique_alpha(x, al),
+                     function(y) calculer_fx_condN_crm_archi_simple(y, 1, al_theta[2],
+                                                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                                                    function(x, al) dgeo_shifted(x, al),
+                                                                    function(x, al) qgeo_shifted(x, al),
                                                                     function(x) pgamma(x, alphaGa, betaGa),
                                                                     function(x) dpois(x, lambdaPois),
                                                                     function(x) ppois(x, lambdaPois)))
 fx_cond_N2 <- sapply(0:6000,
-                     function(y) calculer_fx_condN_crm_archi_simple(y, 2, al_theta[3],
-                                                                    function(x, al) tls_inv_logarithmic(x, al),
-                                                                    function(x, al) dlogarithmique_alpha(x, al),
-                                                                    function(x, al) qlogarithmique_alpha(x, al),
+                     function(y) calculer_fx_condN_crm_archi_simple(y, 2, al_theta[2],
+                                                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                                                    function(x, al) dgeo_shifted(x, al),
+                                                                    function(x, al) qgeo_shifted(x, al),
                                                                     function(x) pgamma(x, alphaGa, betaGa),
                                                                     function(x) dpois(x, lambdaPois),
                                                                     function(x) ppois(x, lambdaPois)))
 fx_cond_N3 <- sapply(0:6000,
-                     function(y) calculer_fx_condN_crm_archi_simple(y, 3, al_theta[3],
-                                                                    function(x, al) tls_inv_logarithmic(x, al),
-                                                                    function(x, al) dlogarithmique_alpha(x, al),
-                                                                    function(x, al) qlogarithmique_alpha(x, al),
+                     function(y) calculer_fx_condN_crm_archi_simple(y, 3, al_theta[2],
+                                                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                                                    function(x, al) dgeo_shifted(x, al),
+                                                                    function(x, al) qgeo_shifted(x, al),
                                                                     function(x) pgamma(x, alphaGa, betaGa),
                                                                     function(x) dpois(x, lambdaPois),
                                                                     function(x) ppois(x, lambdaPois)))
 
 fx_cond_N4 <- sapply(0:6000,
-                     function(y) calculer_fx_condN_crm_archi_simple(y, 4, al_theta[3],
-                                                                    function(x, al) tls_inv_logarithmic(x, al),
-                                                                    function(x, al) dlogarithmique_alpha(x, al),
-                                                                    function(x, al) qlogarithmique_alpha(x, al),
+                     function(y) calculer_fx_condN_crm_archi_simple(y, 4, al_theta[2],
+                                                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                                                    function(x, al) dgeo_shifted(x, al),
+                                                                    function(x, al) qgeo_shifted(x, al),
                                                                     function(x) pgamma(x, alphaGa, betaGa),
                                                                     function(x) dpois(x, lambdaPois),
                                                                     function(x) ppois(x, lambdaPois)))
 fx_cond_N5 <- sapply(0:6000,
-                     function(y) calculer_fx_condN_crm_archi_simple(y, 5, al_theta[3],
-                                                                    function(x, al) tls_inv_logarithmic(x, al),
-                                                                    function(x, al) dlogarithmique_alpha(x, al),
-                                                                    function(x, al) qlogarithmique_alpha(x, al),
+                     function(y) calculer_fx_condN_crm_archi_simple(y, 5, al_theta[2],
+                                                                    function(x, al) tls_inv_geom_essais_alpha(x, al),
+                                                                    function(x, al) dgeo_shifted(x, al),
+                                                                    function(x, al) qgeo_shifted(x, al),
                                                                     function(x) pgamma(x, alphaGa, betaGa),
                                                                     function(x) dpois(x, lambdaPois),
                                                                     function(x) ppois(x, lambdaPois)))
@@ -204,7 +209,7 @@ fx_cond_N5 <- sapply(0:6000,
 sup_fx_cond <- 0:6000
 
 plot(sup_fx_cond, fx_cond_N1, type = "l", lwd = 2, col = "blue", xlab = "ih", ylab = "F.m.p. de X sachant N = k")
-title("F.m.p. de X sachant N = k (pour k = 1, ..., 5) dans le contexte d'un\nCRM avec dépendance selon une copule de Frank de paramètre 0.5")
+title("F.m.p. de X conditionnelle à N = k (pour k = 1, ..., 5)\npour un CRM avec copule AMH de paramètre 0.3")
 lines(sup_fx_cond, fx_cond_N2, lwd = 2, col = "green")
 lines(sup_fx_cond, fx_cond_N3, lwd = 2, col = "orange")
 lines(sup_fx_cond, fx_cond_N4, lwd = 2, col = "purple")
@@ -222,8 +227,8 @@ legend(4000, 0.00055, c("f_{X | N = 1} (ih)",
 # Échantillonnage
 n <- 1000000
 ech_non_structuree <- echantillonner_crm_cop_archi(n,
-                                                   function(x) qlogarithmique_alpha(x, al_theta[3]),
-                                                   function(x) tls_logarithmic(x, al_theta[3]),
+                                                   function(x) qgeo_shifted(x, al_theta[2]),
+                                                   function(x) tls_geom_essais_alpha(x, al_theta[2]),
                                                    function(x) qpois(x, lambdaPois),
                                                    function(x) qgamma(x, alphaGa, betaGa),
                                                    q_theta_not_vectorized = TRUE)

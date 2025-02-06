@@ -5,17 +5,16 @@
 ###
 ##
 
-
-# source("calculer_ES.R")
-# source("../utilitaires/approximer_kmax.R")
-# source("../utilitaires/dist_binomiale_negative_essais.R")
-# source("../utilitaires/utilitaires.R")
-# source("../modele-copule-archi/geom_shifted.R")
-# source("../modele-copule-archi/geom_shifted.R")
-# source("echantillonner_crm_cop_archi_hiera.R")
-# source("../modele-comonotonicite-tot/echantillonner_model_3.R")
-# source("calculer_fS.R")
-# source("calculer_VarS.R")
+source("../modele-copule-archi-hiera/calculer_fmp_conjointe_composantes.R")
+source("../modele-copule-archi-hiera/calculer_ES.R")
+source("../utilitaires/approximer_kmax.R")
+source("../utilitaires/dist_binomiale_negative_essais.R")
+source("../utilitaires/utilitaires.R")
+source("../modele-copule-archi/geom_shifted.R")
+source("../modele-copule-archi/geom_shifted.R")
+source("../modele-copule-archi-hiera/echantillonner_crm_cop_archi_hiera.R")
+source("../modele-copule-archi-hiera/calculer_fS.R")
+source("../modele-copule-archi-hiera/calculer_VarS.R")
 
 seuil <- 0.0000001
 
@@ -67,7 +66,7 @@ TVaR_kapp_discr_v2(0.995, h, fS_cas11)
 
 # Mesure_entropique_discr_v2(0.001, h, fS_cas11)
 
-Mesure_entropique_discr_v2(0.001, h, pmax(fS_cas11, 0)) # valeurs négatives à la fin du vecteur fS.
+Mesure_entropique_discr_v2(0.0002, h, pmax(fS_cas11, 0)) # valeurs négatives à la fin du vecteur fS.
 
 # Mesure_entropique_discr_v2(0.0001, h, fS_cas11)
 
@@ -98,7 +97,7 @@ VaR_kapp_discr(0.995, h, fS_cas12)
 TVaR_kapp_discr_v2(0.99, h, fS_cas12)
 TVaR_kapp_discr_v2(0.995, h, fS_cas12)
 
-Mesure_entropique_discr_v2(0.001, h, pmax(fS_cas12, 0)) # valeurs négatives à la fin du vecteur fS.
+Mesure_entropique_discr_v2(0.0002, h, pmax(fS_cas12, 0)) # valeurs négatives à la fin du vecteur fS.
 Mesure_entropique_discr_v2(0.0001, h, pmax(fS_cas12, 0)) # valeurs négatives à la fin du vecteur fS.
 
 saveRDS(fS_cas11, "fS_cas11.rds")
@@ -131,7 +130,7 @@ VaR_kapp_discr(0.995, h, fS_cas21)
 TVaR_kapp_discr_v2(0.99, h, fS_cas21)
 TVaR_kapp_discr_v2(0.995, h, fS_cas21)
 
-Mesure_entropique_discr_v2(0.001, h, pmax(fS_cas21, 0)) # valeurs négatives à la fin du vecteur fS.
+Mesure_entropique_discr_v2(0.0002, h, pmax(fS_cas21, 0)) # valeurs négatives à la fin du vecteur fS.
 Mesure_entropique_discr_v2(0.0001, h, pmax(fS_cas21, 0)) # valeurs négatives à la fin du vecteur fS.
 
 fS_cas22 <- calculer_fS_archi_hiera(nfft, kmax, h,
@@ -162,7 +161,7 @@ VaR_kapp_discr(0.995, h, fS_cas22)
 TVaR_kapp_discr_v2(0.99, h, fS_cas22)
 TVaR_kapp_discr_v2(0.995, h, fS_cas22)
 
-Mesure_entropique_discr_v2(0.001, h, pmax(fS_cas22, 0)) # valeurs négatives à la fin du vecteur fS.
+Mesure_entropique_discr_v2(0.0002, h, pmax(fS_cas22, 0)) # valeurs négatives à la fin du vecteur fS.
 Mesure_entropique_discr_v2(0.0001, h, pmax(fS_cas22, 0)) # valeurs négatives à la fin du vecteur fS.
 
 fS_cas11 <- readRDS("fS_cas11.rds")
@@ -174,11 +173,11 @@ test_comparaison <- matrix(c(cumsum(fS_cas11[1:8000]), cumsum(fS_cas12[1:8000]))
 
 test_comparaison[7900:8000,]
 
-plot((0:15000) * h, cumsum(fS_cas11[1:15001]), lwd = 5, type = "l", col = "green", xlab = "ih", ylab = "F.m.p. de S")
-title("F.m.p. de la v.a. S pour diverses valeurs de alpha_0 et alpha_1\ndans le contexte d'un CRM avec dépendance\nselon une copule Archimédienne hiérarchique AMH-AMH")
-lines((0:15000) * h, cumsum(fS_cas12[1:15001]), lwd = 2, col = "blue")
-lines((0:15000) * h, cumsum(fS_cas21[1:15001]), lwd = 5, col = "purple")
-lines((0:15000) * h, cumsum(fS_cas22[1:15001]), lwd = 2, col = "orange")
+plot((0:15000) * h, cumsum(fS_cas11[1:15001]), lwd = 2, type = "l", col = "green", xlab = "ih", ylab = "F_S (ih)")
+title("Fonctions de répartition de la v.a. S pour diverses valeurs de alpha_0\net alpha_1 dans le contexte d'un CRM avec dépendance\nselon une copule Archimédienne hiérarchique AMH-AMH")
+lines((0:15000) * h, cumsum(fS_cas12[1:15001]), lwd = 1, col = "blue")
+lines((0:15000) * h, cumsum(fS_cas21[1:15001]), lwd = 2, col = "purple")
+lines((0:15000) * h, cumsum(fS_cas22[1:15001]), lwd = 1, col = "orange")
 legend(8000, 0.6, c("alpha0 = 0.3, alpha1 = 0.3",
                "alpha0 = 0.3, alpha1 = 0.55",
                "alpha0 = 0.55, alpha1 = 0.3",
@@ -238,19 +237,19 @@ fX_cond_N_k5 <- sapply(sup_fx_cond,
                                                                   function(x, th0) dnbinom_essais(x, th0, q1[2]),
                                                                   seuil))
 
-plot(sup_fx_cond, fX_cond_N_k1, type = "l", lwd = 3, col = "blue", xlab = "ih", ylab = "F.m.p. de X sachant N = k")
+plot(sup_fx_cond, fX_cond_N_k1, type = "l", lwd = 2, col = "blue", xlab = "ih", ylab = "F.m.p. de X sachant N = k")
 title("F.m.p. de X conditionnelle à N = k pour quelques valeurs de k\npour un CRM avec copule Archimédienne hiérarchique AMH-AMH\nde paramètres alpha0 = 0.3 et alpha1 = 0.8")
-lines(sup_fx_cond, fX_cond_N_k2, lwd = 3, col = "green")
-lines(sup_fx_cond, fX_cond_N_k3, lwd = 3, col = "orange")
-lines(sup_fx_cond, fX_cond_N_k4, lwd = 3, col = "purple")
-lines(sup_fx_cond, fX_cond_N_k5, lwd = 3, col = "red")
+lines(sup_fx_cond, fX_cond_N_k2, lwd = 2, col = "green")
+lines(sup_fx_cond, fX_cond_N_k3, lwd = 2, col = "orange")
+lines(sup_fx_cond, fX_cond_N_k4, lwd = 2, col = "purple")
+lines(sup_fx_cond, fX_cond_N_k5, lwd = 2, col = "red")
 legend(4000, 0.00065, c("f_{X | N = 1} (ih)",
                "f_{X | N = 2} (ih)",
                "f_{X | N = 3} (ih)",
                "f_{X | N = 4} (ih)",
                "f_{X | N = 5} (ih)"),
        col = c("blue", "green", "orange", "purple", "red"),
-       lwd = rep(3, 5))
+       lwd = rep(2, 5))
 
 
 # Échantillonnage
@@ -270,5 +269,26 @@ var(rowSums(ech[, -1])) # Var(S) empirique
 
 ech_S <- rowSums(ech[, -1])
 sorted_ech_S <- sort(ech_S)
+sorted_ech_S[0.99 * n]
+sorted_ech_S[0.995 * n]
+
+
+# Échantillonnage - reverse copula
+n <- 1000000
+ech_l_rc <- echantillonner_crm_cop_archi_hiera_rc(n,
+                                            function(x) qgeo_shifted(x, 1 - q0[1]),
+                                            function(x) tls_geom_essais(x, q0[1]),
+                                            function(x) qgeo_shifted(x, 1 - q1[2]),
+                                            function(x) fgp_geom_essais(tls_geom_essais(x, q1[2]), q0[1]),
+                                            function(x) qpois(x, lambdaPois),
+                                            function(x) qgamma(x, alphaGa, betaGa))
+ech_rc <- structurer_echantillon(ech_l_rc$realisations, ech_l_rc$max_N_i)
+
+
+mean(rowSums(ech_rc[, -1])) # E[S] empirique
+var(rowSums(ech_rc[, -1])) # Var(S) empirique
+
+ech_S_rc <- rowSums(ech_rc[, -1])
+sorted_ech_S <- sort(ech_S_rc)
 sorted_ech_S[0.99 * n]
 sorted_ech_S[0.995 * n]

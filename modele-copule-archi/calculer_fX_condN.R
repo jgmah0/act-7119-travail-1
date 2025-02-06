@@ -39,7 +39,7 @@ calculer_fx_condN_crm_archi_simple <- function(i, k, alpha, tlsinvDistTheta, dDi
 }
 
 # Vérification qu'on somme à 1
-source("modele-copule-archi/geom_shifted.R")
+# source("modele-copule-archi/geom_shifted.R")
 xx = seq(10000) - 1
 sum(sapply(xx, function(y) calculer_fx_condN_crm_archi_simple(i = y,
                                                          k = 3,

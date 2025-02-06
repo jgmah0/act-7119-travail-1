@@ -9,8 +9,8 @@
 ###
 ##
 
-source("calculer_fmp_conjointe_composantes.R")
-source("calculer_ES.R")
+# source("calculer_fmp_conjointe_composantes.R")
+# source("calculer_ES.R")
 
 calculer_VarX_cond_N_archi_hiera <- function(k, h, imax,
                                              tlsInvTh0, pDistN, dDistN,

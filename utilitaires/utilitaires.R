@@ -64,6 +64,12 @@ tls_inv_logarithmic <- function(u, al)
     - log((1 - exp(- al * u)) / (1 - exp(-al)))
 }
 
+# Référence : Annexe A de [Cossette et al., 2018]
+tls_logarithmic <- function(t, al)
+{
+    - (1 / al) * log( 1 - (1 - exp(-al)) * exp(-t) )
+}
+
 
 # TLS inverse pour le modèle avec copule Archimédienne hiérarchique
 # geom-geom
@@ -75,6 +81,11 @@ fgp_inv_geom_essais <- function(u, q)
 tls_inv_geom_essais <- function(u, q)
 {
     log(( q + u * (1 - q) ) / u)
+}
+
+tls_inv_geom_essais_alpha <- function(u, al)
+{
+    log(( 1 - al + u * (al) ) / u)
 }
 
 tls_inv_geom_essais_comp_geom_essais <- function(u, q0, q1)
@@ -89,9 +100,20 @@ tls_geom_essais <- function(t, q)
     (q * exp(-t)) / (1 - (1 - q) * exp(-t))
 }
 
+tls_geom_essais_alpha <- function(t, al)
+{
+    ((1 - al) * exp(-t)) / (1 - (al) * exp(-t))
+}
+
 fgp_geom_essais <- function(t, q)
 {
     (q * t) / (1 - (1 - q) * t)
+}
+
+# TLS de la loi gamma (référence : Annexe A de [Cossette et al., 2019])
+tls_gamma <- function(t, al, be)
+{
+    (be / (be + t))^al
 }
 
 
@@ -112,6 +134,19 @@ discr <- function(h, pDistX, qDistX,
 
     c(pDistX(h),
       pDistX((2:length) * h) - pDistX((1:(length - 1)) * h))
+}
+
+discr_v2 <- function(longueur, h, pDistX, method = "lower")
+{
+    if(method == "lower")
+    {
+        longueur <- longueur + 1
+        return(c(0,  pDistX((1:longueur) * h) -
+                     pDistX((0:(longueur - 1)) * h)))
+    }
+
+    c(pDistX(h),
+      pDistX((2:longueur) * h) - pDistX((1:(longueur - 1)) * h))
 }
 
 
