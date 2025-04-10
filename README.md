@@ -3,3 +3,7 @@
 ## Auteurs
 
 Dominik Chevalier, Félix Côté et Jean-Gabriel Maheux
+
+## Base du travail
+
+Cossette, H., Marceau, E., & Mtalai, I. (2019). Collective risk models with dependence. Insurance: Mathematics and economics, 87, 153-168.
